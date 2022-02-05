@@ -16,11 +16,18 @@ public class MoveWithSetWheelDirectionsWithGyro extends CommandBase {
   Gyro gyro;
   double fR, fL, bR, bL;
 
-  // This command basically sets the wheels to a specific angle and drives the robot a certain distance
+  // This command basically sets the wheels to a specific angle and drives the robot a certain
+  // distance
   // in that direction.
-  public MoveWithSetWheelDirectionsWithGyro(SwerveRotaters rotators, SwerveSpinners spinners, Gyro gyro, double angle, double moveDistance) {
+  public MoveWithSetWheelDirectionsWithGyro(
+      SwerveRotaters rotators,
+      SwerveSpinners spinners,
+      Gyro gyro,
+      double angle,
+      double moveDistance) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.rotators = rotators;
+    this.spinners = spinners;
     this.gyro = gyro;
     this.fR = rotators.angleToPulse(angle, gyro.getYaw());
     this.fL = rotators.angleToPulse(angle, gyro.getYaw());
@@ -33,15 +40,16 @@ public class MoveWithSetWheelDirectionsWithGyro extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    rotators.setWheelDirection(fR, fL, bR, bL);
+    System.out.println("amogus");
     spinners.resetEncoders();
+    rotators.setWheelDirection(fR, fL, bR, bL);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     rotators.setWheelDirection(fR, fL, bR, bL);
-    if(rotators.reachedPosition(fR, fL, bR, bL)){
+    if (rotators.reachedPosition(fR, fL, bR, bL)) {
       spinners.driveDistance(pulsesDistance);
     }
   }
